@@ -4,6 +4,8 @@ Text classification algorithm that predicts news topics on articles from the Reu
 
 ### To install all dependencies on ubuntu 16.04 run:
 
+(Before you ask me how to install on your os. You can always start a docker container using 'docker run -it ubuntu:16.04 /bin/bash' and copy and run the scripts in there.)
+
 sudo apt-get update
 sudo apt-get install python3 python3-dev python3-pip python3-h5py build-essential
 sudo pip3 install pip --upgrade
