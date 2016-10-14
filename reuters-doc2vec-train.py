@@ -37,7 +37,8 @@ else:
     # Build the word2vec model from the corpus
     doc2vec.build_vocab(taggedDocuments)
 
-    # Load the google news word2vec model, should improve the models understanding of words (the reuters 21578 dataset is not that big)
+    # Load the google news word2vec model, should improve the models understanding of words (the Reuters 21578 dataset is not that big)
+    # Download from https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?usp=sharing
     if(path.exists(google_news_word2vec_model_location)):
         doc2vec.intersect_word2vec_format(google_news_word2vec_model_location, binary=True)
 
