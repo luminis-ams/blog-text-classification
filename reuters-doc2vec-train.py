@@ -17,9 +17,11 @@ from sklearn.preprocessing.label import MultiLabelBinarizer
 nltk.download('reuters')
 nltk.download('punkt')
 
+google_news_word2vec_model_location = 'data/GoogleNews-vectors-negative300.bin.gz'
 doc2vec_model_location = 'model/doc2vec-model.bin'
 doc2vec_vectors_location = 'model/doc2vec-vectors.bin'
 doc2vec_dimensions = 300
+classifier_model_location = 'model/classifier-model.bin'
 
 if path.exists(doc2vec_model_location):
     doc2vec = Doc2Vec.load(doc2vec_model_location)
@@ -30,8 +32,13 @@ else:
 
     # Create and train the doc2vec model
     doc2vec = Doc2Vec(size=doc2vec_dimensions, min_count=2, iter=10, workers=12)
-    # Build the internal word2vec model
+
+    # Build the word2vec model from the corpus
     doc2vec.build_vocab(taggedDocuments)
+
+    # Load the google news word2vec model
+    doc2vec.intersect_word2vec_format(google_news_word2vec_model_location, binary=True)
+
     doc2vec.train(taggedDocuments)
     doc2vec.save(doc2vec_model_location)
 
@@ -74,4 +81,6 @@ model.add(Dense(output_dim=train_labels.shape[1], activation='sigmoid'))
 model.compile(optimizer=Adam(), loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the neural network
-model.fit(train_data, train_labels, validation_data=(test_data, test_labels), batch_size=32, nb_epoch=100)
+model.fit(train_data, train_labels, validation_data=(test_data, test_labels), batch_size=32, nb_epoch=5)
+
+model.save(classifier_model_location, overwrite=True)
