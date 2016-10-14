@@ -1,15 +1,6 @@
-import pickle
-from os import path
-from random import shuffle
-
 import nltk
-import numpy
 from gensim.models import Doc2Vec
-from gensim.models import Word2Vec
-from gensim.models.doc2vec import TaggedDocument
-from keras.layers import Dense, Dropout
-from keras.models import Sequential, load_model
-from keras.optimizers import Adam
+from keras.models import load_model
 from nltk.corpus import reuters
 from nltk.tokenize import word_tokenize
 from sklearn.preprocessing import normalize

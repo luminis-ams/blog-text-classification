@@ -6,6 +6,7 @@ import nltk
 import numpy
 from gensim.models import Doc2Vec
 from gensim.models.doc2vec import TaggedDocument
+from keras.callbacks import ModelCheckpoint
 from keras.layers import Dense, Dropout
 from keras.models import Sequential
 from keras.optimizers import Adam
@@ -36,8 +37,9 @@ else:
     # Build the word2vec model from the corpus
     doc2vec.build_vocab(taggedDocuments)
 
-    # Load the google news word2vec model
-    doc2vec.intersect_word2vec_format(google_news_word2vec_model_location, binary=True)
+    # Load the google news word2vec model, should improve the models understanding of words (the reuters 21578 dataset is not that big)
+    if(path.exists(google_news_word2vec_model_location)):
+        doc2vec.intersect_word2vec_format(google_news_word2vec_model_location, binary=True)
 
     doc2vec.train(taggedDocuments)
     doc2vec.save(doc2vec_model_location)
@@ -80,7 +82,7 @@ model.add(Dropout(0.3))
 model.add(Dense(output_dim=train_labels.shape[1], activation='sigmoid'))
 model.compile(optimizer=Adam(), loss='binary_crossentropy', metrics=['accuracy'])
 
-# Train the neural network
-model.fit(train_data, train_labels, validation_data=(test_data, test_labels), batch_size=32, nb_epoch=5)
+checkpointer = ModelCheckpoint(filepath=classifier_model_location, verbose=1, save_best_only=True)
 
-model.save(classifier_model_location, overwrite=True)
+# Train the neural network
+model.fit(train_data, train_labels, validation_data=(test_data, test_labels), batch_size=32, nb_epoch=15, callbacks=[checkpointer])
