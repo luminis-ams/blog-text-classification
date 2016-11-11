@@ -10,10 +10,13 @@ sudo apt-get install python3 python3-dev python3-pip python3-h5py build-essentia
 
 sudo pip3 install pip --upgrade
 
-sudo pip3 install keras sklearn nltk gensim numpy https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.10.0-cp35-cp35m-linux_x86_64.whl
+sudo pip3 install keras sklearn nltk gensim numpy https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.10.0-cp35-cp35m-linux_x86_64.whl --upgrade
 
-### Run the training script to generate the models
+### 1. Run the doc2vec training script to generate the doc2vec model
 python3 reuters-doc2vec-train.py
 
-### Run the prediction script to view the predicted labels and the original labels
-python3 reuters-doc2vec-predict.py
+### 2. Run the classifier training script to generate the classifier model
+python3 reuters-classifier-train.py
+
+### 3. Run the prediction script to view the predicted labels and the original labels
+python3 reuters-predict.py
